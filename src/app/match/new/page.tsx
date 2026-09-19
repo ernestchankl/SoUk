@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BackLink } from "@/components/codes-help";
 import { PhoneShell, TopBar } from "@/components/phone-shell";
@@ -20,7 +19,6 @@ import type { BestOf, Match, Team, TeamSide } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export default function NewMatchPage() {
-  const router = useRouter();
   const [home, setHome] = useState<Team>(() => createBlankTeam("我方", "我方"));
   const [away, setAway] = useState<Team>(() => createBlankTeam("對方", "對方"));
   const [bestOf, setBestOf] = useState<BestOf>(5);
@@ -39,7 +37,10 @@ export default function NewMatchPage() {
       actions: [],
     };
     saveMatch(match);
-    router.push(`/match/${match.id}`);
+    // Full navigation is more reliable than the App Router when the
+    // development websocket is unavailable.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- see comment above
+    window.location.assign(`/match/${match.id}`);
   };
 
   return (
@@ -104,8 +105,15 @@ export default function NewMatchPage() {
             <RosterEditor team={away} onChange={setAway} tone="away" />
           </TabsContent>
         </Tabs>
+        <button
+          type="button"
+          className={cn(buttonVariants(), "h-12 w-full text-base")}
+          onClick={start}
+        >
+          開始記錄
+        </button>
       </main>
-      <div className="sticky bottom-0 border-t border-white/10 bg-background/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="sticky bottom-0 z-30 border-t border-white/10 bg-background/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <button
           type="button"
           className={cn(buttonVariants(), "h-12 w-full text-base")}

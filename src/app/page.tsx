@@ -57,7 +57,16 @@ export default function HomePage() {
 
       <main className="flex-1 space-y-3 px-5 pb-8">
         {matches.length === 0 ? (
-          <EmptyState onDemo={() => save(createSampleMatch())} />
+          <EmptyState
+            onDemo={() => {
+              try {
+                save(createSampleMatch());
+              } catch (error) {
+                console.error(error);
+                window.alert("無法載入示範場次，請再試一次。");
+              }
+            }}
+          />
         ) : (
           matches.map((match) => <MatchCard key={match.id} match={match} />)
         )}

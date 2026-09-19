@@ -3,7 +3,7 @@ import { uid } from "@/lib/id";
 import { deriveState } from "@/lib/volleyball";
 
 export const STORAGE_KEY = "rallycode.matches.v1";
-const SEEDED = "rallycode.seeded.v2";
+const SEEDED = "rallycode.seeded.v3";
 export const STORE_EVENT = "rallycode-matches";
 const EMPTY_MATCHES: Match[] = [];
 

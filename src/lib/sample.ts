@@ -1,6 +1,7 @@
 import type { Action, Evaluation, Match, Player, Skill, Team, TeamSide } from "@/lib/types";
 import { uid } from "@/lib/id";
 import { deriveState, opposite, pointWinner, setIsWon } from "@/lib/volleyball";
+import sampleMatch from "@/lib/sample-match.json";
 
 function player(number: number, name: string, position: Player["position"]): Player {
   return { id: uid(), number, name, position };
@@ -299,7 +300,7 @@ export function createNamedTeam(
   );
 }
 
-export function createSampleMatch(): Match {
+export function buildGeneratedSampleMatch(): Match {
   const home = createNamedTeam("海大藍鯨", "藍鯨", HOME_ROSTER);
   const away = createNamedTeam("北市紅隼", "紅隼", AWAY_ROSTER);
   const rng = new Rng(20260919);
@@ -335,6 +336,15 @@ export function createSampleMatch(): Match {
   if (!state.matchWinner) {
     match.status = "live";
   }
+  return match;
+}
+
+export function createSampleMatch(): Match {
+  const match = structuredClone(sampleMatch) as Match;
+  match.id = uid();
+  match.createdAt = Date.now() - 1000 * 60 * 95;
+  match.updatedAt = Date.now() - 1000 * 60 * 5;
+  match.actions = match.actions.map((action) => ({ ...action, id: uid() }));
   return match;
 }
 
