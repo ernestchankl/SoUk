@@ -13,17 +13,7 @@ import { Download } from "lucide-react";
 
 export default function StatsPage() {
   const params = useParams<{ id: string }>();
-  const { hydrated, match } = useMatch(params.id);
-
-  if (!hydrated) {
-    return (
-      <PhoneShell>
-        <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-          載入數據中…
-        </div>
-      </PhoneShell>
-    );
-  }
+  const { match } = useMatch(params.id);
 
   if (!match) {
     return (

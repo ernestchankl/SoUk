@@ -15,29 +15,27 @@ import {
 
 let didSeed = false;
 
-const noopSubscribe = () => () => {};
-
-export function useIsClient() {
-  return useSyncExternalStore(
-    noopSubscribe,
-    () => true,
-    () => false
-  );
+function seedDemoMatch() {
+  if (didSeed) return;
+  didSeed = true;
+  try {
+    if (!wasSeeded() && readMatchesSnapshot().length === 0) {
+      persist(createSampleMatch());
+    }
+    markSeeded();
+  } catch (error) {
+    console.error("無法載入示範場次", error);
+  }
 }
 
 function subscribe(onStoreChange: () => void) {
-  if (!didSeed) {
-    didSeed = true;
-    if (!wasSeeded() && readMatchesSnapshot().length === 0) {
-      persist(createSampleMatch());
-      markSeeded();
-    }
-  }
-  return subscribeMatches(onStoreChange);
+  seedDemoMatch();
+  const unsubscribe = subscribeMatches(onStoreChange);
+  queueMicrotask(onStoreChange);
+  return unsubscribe;
 }
 
 export function useMatches() {
-  const hydrated = useIsClient();
   const matches = useSyncExternalStore(
     subscribe,
     readMatchesSnapshot,
@@ -52,11 +50,10 @@ export function useMatches() {
     removeMatch(id);
   }, []);
 
-  return { hydrated, matches, save, remove };
+  return { matches, save, remove };
 }
 
 export function useMatch(id: string) {
-  const hydrated = useIsClient();
   const matches = useSyncExternalStore(
     subscribe,
     readMatchesSnapshot,
@@ -68,5 +65,5 @@ export function useMatch(id: string) {
     persist({ ...next, updatedAt: Date.now() });
   }, []);
 
-  return { hydrated, match, update };
+  return { match, update };
 }

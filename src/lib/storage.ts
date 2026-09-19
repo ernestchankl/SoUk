@@ -3,29 +3,30 @@ import { uid } from "@/lib/id";
 import { deriveState } from "@/lib/volleyball";
 
 export const STORAGE_KEY = "rallycode.matches.v1";
-const SEEDED = "rallycode.seeded.v1";
+const SEEDED = "rallycode.seeded.v2";
 export const STORE_EVENT = "rallycode-matches";
+const EMPTY_MATCHES: Match[] = [];
 
 function canUseStorage(): boolean {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
 }
 
 let cachedRaw = "__empty__";
-let cachedMatches: Match[] = [];
+let cachedMatches: Match[] = EMPTY_MATCHES;
 
 function parseMatches(raw: string | null): Match[] {
-  if (!raw) return [];
+  if (!raw) return EMPTY_MATCHES;
   try {
     const parsed = JSON.parse(raw) as Match[];
-    if (!Array.isArray(parsed)) return [];
+    if (!Array.isArray(parsed) || parsed.length === 0) return EMPTY_MATCHES;
     return parsed.sort((a, b) => b.updatedAt - a.updatedAt);
   } catch {
-    return [];
+    return EMPTY_MATCHES;
   }
 }
 
 export function readMatchesSnapshot(): Match[] {
-  if (!canUseStorage()) return [];
+  if (!canUseStorage()) return EMPTY_MATCHES;
   const raw = window.localStorage.getItem(STORAGE_KEY);
   const key = raw ?? "";
   if (key === cachedRaw) return cachedMatches;
@@ -35,7 +36,7 @@ export function readMatchesSnapshot(): Match[] {
 }
 
 export function getServerMatchesSnapshot(): Match[] {
-  return [];
+  return EMPTY_MATCHES;
 }
 
 export function loadMatches(): Match[] {
@@ -52,7 +53,7 @@ export function saveMatches(matches: Match[]) {
   if (!canUseStorage()) return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(matches));
   cachedRaw = "__invalidate__";
-  cachedMatches = matches.sort((a, b) => b.updatedAt - a.updatedAt);
+  cachedMatches = matches.length === 0 ? EMPTY_MATCHES : matches.sort((a, b) => b.updatedAt - a.updatedAt);
   window.dispatchEvent(new Event(STORE_EVENT));
 }
 

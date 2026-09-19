@@ -5,7 +5,7 @@ import { useState } from "react";
 import { BackLink } from "@/components/codes-help";
 import { PhoneShell, TopBar } from "@/components/phone-shell";
 import { RosterEditor } from "@/components/roster-editor";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { uid } from "@/lib/id";
@@ -17,6 +17,7 @@ import {
 } from "@/lib/sample";
 import { saveMatch } from "@/lib/storage";
 import type { BestOf, Match, Team, TeamSide } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export default function NewMatchPage() {
   const router = useRouter();
@@ -105,9 +106,13 @@ export default function NewMatchPage() {
         </Tabs>
       </main>
       <div className="sticky bottom-0 border-t border-white/10 bg-background/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <Button className="h-12 w-full text-base" onClick={start}>
+        <button
+          type="button"
+          className={cn(buttonVariants(), "h-12 w-full text-base")}
+          onClick={start}
+        >
           開始記錄
-        </Button>
+        </button>
       </div>
     </PhoneShell>
   );

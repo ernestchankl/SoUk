@@ -18,26 +18,16 @@ import { BarChart3, Undo2 } from "lucide-react";
 export default function ScoutPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { hydrated, match, update } = useMatch(params.id);
+  const { match, update } = useMatch(params.id);
 
   const state = useMemo(() => (match ? deriveState(match) : null), [match]);
-
-  if (!hydrated) {
-    return (
-      <PhoneShell>
-        <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-          載入比賽中…
-        </div>
-      </PhoneShell>
-    );
-  }
 
   if (!match || !state) {
     return (
       <PhoneShell>
-        <TopBar left={<BackLink href="/" />} title="找不到比賽" />
+        <TopBar left={<BackLink href="/" />} title="比賽" />
         <p className="px-5 py-10 text-center text-sm text-muted-foreground">
-          這場比賽不在本機資料裡。
+          找不到這場比賽，或資料還在載入。請回列表再試一次。
         </p>
       </PhoneShell>
     );

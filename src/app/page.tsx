@@ -11,7 +11,7 @@ import { importMatchJson } from "@/lib/storage";
 import { BarChart3, Plus, Upload } from "lucide-react";
 
 export default function HomePage() {
-  const { hydrated, matches, save } = useMatches();
+  const { matches, save } = useMatches();
   const fileRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -56,15 +56,8 @@ export default function HomePage() {
       </div>
 
       <main className="flex-1 space-y-3 px-5 pb-8">
-        {!hydrated ? (
-          <div className="space-y-3">
-            <div className="h-28 animate-pulse rounded-2xl bg-white/5" />
-            <div className="h-28 animate-pulse rounded-2xl bg-white/5" />
-          </div>
-        ) : matches.length === 0 ? (
-          <EmptyState
-            onDemo={() => save(createSampleMatch())}
-          />
+        {matches.length === 0 ? (
+          <EmptyState onDemo={() => save(createSampleMatch())} />
         ) : (
           matches.map((match) => <MatchCard key={match.id} match={match} />)
         )}

@@ -12,15 +12,15 @@ import { deriveState } from "@/lib/volleyball";
 export default function SetupPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { hydrated, match, update } = useMatch(params.id);
+  const { match, update } = useMatch(params.id);
   const { remove } = useMatches();
 
-  if (!hydrated || !match) {
+  if (!match) {
     return (
       <PhoneShell>
         <TopBar left={<BackLink href="/" />} title="比賽設定" />
         <p className="px-5 py-10 text-center text-sm text-muted-foreground">
-          {hydrated ? "找不到比賽。" : "載入中…"}
+          找不到比賽。
         </p>
       </PhoneShell>
     );
