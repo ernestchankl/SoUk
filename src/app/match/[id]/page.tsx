@@ -87,6 +87,7 @@ export default function ScoutPage() {
             variant="ghost"
             size="icon"
             className="size-8"
+            nativeButton={false}
             render={<Link href={`/match/${match.id}/stats`} />}
           >
             <BarChart3 />
@@ -101,6 +102,7 @@ export default function ScoutPage() {
             <Button
               variant="ghost"
               size="sm"
+              nativeButton={false}
               render={<Link href={`/match/${match.id}/setup`} />}
             >
               名單
@@ -122,7 +124,7 @@ export default function ScoutPage() {
         </div>
         {locked ? (
           <div className="px-4 py-4">
-            <Button className="h-12 w-full" render={<Link href={`/match/${match.id}/stats`} />}>
+            <Button className="h-12 w-full" nativeButton={false} render={<Link href={`/match/${match.id}/stats`} />}>
               查看本場分析
             </Button>
             <Button

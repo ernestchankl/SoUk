@@ -61,7 +61,7 @@ export function CodesHelp() {
 
 export function BackLink({ href, label = "返回" }: { href: string; label?: string }) {
   return (
-    <Button variant="ghost" size="icon" className="size-8" render={<Link href={href} />}>
+    <Button variant="ghost" size="icon" className="size-8" nativeButton={false} render={<Link href={href} />}>
       <span className="sr-only">{label}</span>
       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M15 18l-6-6 6-6" />

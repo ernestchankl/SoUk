@@ -25,7 +25,7 @@ export default function HomePage() {
       </header>
 
       <div className="flex gap-2 px-5 py-3">
-        <Button className="h-11 flex-1" render={<Link href="/match/new" />}>
+        <Button className="h-11 flex-1" nativeButton={false} render={<Link href="/match/new" />}>
           <Plus data-icon="inline-start" />
           新比賽
         </Button>

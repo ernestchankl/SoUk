@@ -55,6 +55,7 @@ export default function StatsPage() {
         <Button
           variant="outline"
           className="mb-6 w-full"
+          nativeButton={false}
           render={<Link href={`/match/${match.id}`} />}
         >
           回到記錄台
