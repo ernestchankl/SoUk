@@ -14,12 +14,12 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "場記 RallyCode",
-  description: "手機版排球比賽記錄與分析，用 Data Volley 簡化代碼即時記分。",
-  applicationName: "場記 RallyCode",
+  title: "蘇屋排球隊Stat App",
+  description: "蘇屋排球隊比賽記錄與分析，用 Data Volley 簡化代碼即時記分。",
+  applicationName: "蘇屋排球隊Stat App",
   appleWebApp: {
     capable: true,
-    title: "場記",
+    title: "蘇屋排球隊Stat App",
     statusBarStyle: "black-translucent",
   },
   icons: {

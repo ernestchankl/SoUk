@@ -17,8 +17,8 @@ export default function HomePage() {
   return (
     <PhoneShell>
       <header className="px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-2">
-        <p className="text-[11px] tracking-[0.28em] text-primary uppercase">RallyCode</p>
-        <h1 className="mt-1 text-3xl font-black tracking-tight">場記</h1>
+        <p className="text-[11px] tracking-[0.2em] text-primary">蘇屋排球隊</p>
+        <h1 className="mt-1 text-3xl font-black tracking-tight">Stat App</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           手機版排球比賽記錄。用 Data Volley 簡化代碼記每一球，賽後立刻看攻擊效率、接發與 Side-out。
         </p>

@@ -1,4 +1,4 @@
-# 場記 RallyCode
+# 蘇屋排球隊Stat App
 
 手機優先的排球比賽記錄與分析工具，是 Data Volley 的簡化版。用「球員 → 技術 → 評價」記下每一球，系統會自動計分，並算出攻擊效率、接發、Side-out 與 Break point。
 
