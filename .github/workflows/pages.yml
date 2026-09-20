@@ -26,8 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          BASE_PATH: /SoUk
-          NEXT_PUBLIC_BASE_PATH: /SoUk
+          BASE_PATH: /VBData
+          NEXT_PUBLIC_BASE_PATH: /VBData
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

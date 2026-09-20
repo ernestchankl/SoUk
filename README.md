@@ -40,11 +40,11 @@ npm start
 
 **GitHub Pages（建議，完全免費）**
 
-1. 把程式推到 `https://github.com/ernestchankl/SoUk.git` 的 `main`
+1. 把程式推到 `https://github.com/ernestchankl/VBData.git` 的 `main`
 2. GitHub → Settings → Pages → Build and deployment → Source 選 **GitHub Actions**
 3. 推送後 Actions 會自動發布
 
-網址會是：https://ernestchankl.github.io/SoUk/
+網址會是：https://ernestchankl.github.io/VBData/
 
 **其他免費方案**
 
