@@ -13,7 +13,7 @@ export function RallyLog({
 }) {
   if (actions.length === 0) {
     return (
-      <p className="px-1 py-2 text-center text-xs text-muted-foreground">
+      <p className="px-1 py-2 text-center text-sm font-medium text-muted-foreground">
         本球尚未記錄動作。先點球員，再選技術與評價。
       </p>
     );
@@ -29,13 +29,13 @@ export function RallyLog({
         return (
           <div
             key={action.id}
-            className="shrink-0 rounded-lg border border-white/10 bg-white/5 px-2 py-1"
+            className="shrink-0 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5"
           >
-            <p className="font-mono text-xs tracking-wide">{formatCode(action)}</p>
-            <p className="max-w-20 truncate text-[10px] text-muted-foreground">
+            <p className="font-mono text-sm font-bold tracking-wide">{formatCode(action)}</p>
+            <p className="max-w-24 truncate text-xs font-medium text-muted-foreground">
               {player?.name || (action.playerNumber !== null ? `#${action.playerNumber}` : "未指定")}
             </p>
-            <span className={cn("mt-0.5 inline-block rounded px-1 text-[10px]", meta.className)}>
+            <span className={cn("mt-0.5 inline-block rounded px-1.5 text-xs font-bold", meta.className)}>
               {action.evaluation}
             </span>
           </div>

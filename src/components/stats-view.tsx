@@ -7,10 +7,12 @@ import { EVAL_META, EVALUATIONS, positionLabel } from "@/lib/codes";
 import type { EvalCounts, Match, PlayerSkillStats } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
+  attackEfficiency,
   computeTeamStats,
   deriveState,
   formatEff,
   formatPct,
+  qualityEfficiency,
 } from "@/lib/volleyball";
 
 export function StatsView({ match }: { match: Match }) {
@@ -41,6 +43,7 @@ export function StatsView({ match }: { match: Match }) {
           tone="home"
           attack={home.attackEfficiency}
           reception={home.receptionEfficiency}
+          set={home.setEfficiency}
           sideout={home.sideoutPct}
           aces={home.aces}
           kills={home.kills}
@@ -50,6 +53,7 @@ export function StatsView({ match }: { match: Match }) {
           tone="away"
           attack={away.attackEfficiency}
           reception={away.receptionEfficiency}
+          set={away.setEfficiency}
           sideout={away.sideoutPct}
           aces={away.aces}
           kills={away.kills}
@@ -82,23 +86,26 @@ export function StatsView({ match }: { match: Match }) {
       <div className="grid grid-cols-2 gap-2">
         <StatTile label="攻擊效率" value={formatEff(stats.attackEfficiency)} hint="(扣死-失誤-被攔)/總數" />
         <StatTile label="接發效率" value={formatPct(stats.receptionEfficiency)} hint="# 1.0 / + 0.8 / ! 0.5" />
+        <StatTile label="舉球效率" value={formatPct(stats.setEfficiency)} hint="# 最佳 / + 好球 / = 失誤" />
         <StatTile label="Side-out" value={formatPct(stats.sideoutPct)} hint={`${stats.sideouts}/${stats.receiveAttempts}`} />
         <StatTile label="Break point" value={formatPct(stats.breakPct)} hint={`${stats.breaks}/${stats.serveAttempts}`} />
+        <StatTile label="完美舉球" value={String(stats.set["#"])} hint={`失誤 ${stats.set["="]} · 共 ${stats.set.total} 次`} />
       </div>
 
       <Tabs defaultValue="attack">
-        <TabsList className="grid w-full grid-cols-4 bg-white/8">
-          <TabsTrigger value="attack">攻擊</TabsTrigger>
-          <TabsTrigger value="serve">發球</TabsTrigger>
-          <TabsTrigger value="reception">接發</TabsTrigger>
-          <TabsTrigger value="block">攔網</TabsTrigger>
+        <TabsList className="grid h-11 w-full grid-cols-5 bg-white/8">
+          <TabsTrigger value="attack" className="px-1 text-xs sm:text-sm">攻擊</TabsTrigger>
+          <TabsTrigger value="serve" className="px-1 text-xs sm:text-sm">發球</TabsTrigger>
+          <TabsTrigger value="reception" className="px-1 text-xs sm:text-sm">接發</TabsTrigger>
+          <TabsTrigger value="set" className="px-1 text-xs sm:text-sm">舉球</TabsTrigger>
+          <TabsTrigger value="block" className="px-1 text-xs sm:text-sm">攔網</TabsTrigger>
         </TabsList>
         <TabsContent value="attack" className="mt-3 space-y-3">
           <EvalBar counts={stats.attack} />
           <PlayerTable
             players={stats.players}
             field="attack"
-            extra={(p) => formatEff(effAttack(p.attack))}
+            extra={(p) => formatEff(attackEfficiency(p.attack))}
             extraLabel="效率"
           />
         </TabsContent>
@@ -116,7 +123,16 @@ export function StatsView({ match }: { match: Match }) {
           <PlayerTable
             players={stats.players}
             field="reception"
-            extra={(p) => formatPct(effReception(p.reception))}
+            extra={(p) => formatPct(qualityEfficiency(p.reception))}
+            extraLabel="效率"
+          />
+        </TabsContent>
+        <TabsContent value="set" className="mt-3 space-y-3">
+          <EvalBar counts={stats.set} />
+          <PlayerTable
+            players={stats.players}
+            field="set"
+            extra={(p) => formatPct(qualityEfficiency(p.set))}
             extraLabel="效率"
           />
         </TabsContent>
@@ -139,6 +155,7 @@ function SummaryCard({
   tone,
   attack,
   reception,
+  set,
   sideout,
   aces,
   kills,
@@ -147,6 +164,7 @@ function SummaryCard({
   tone: "home" | "away";
   attack: number | null;
   reception: number | null;
+  set: number | null;
   sideout: number | null;
   aces: number;
   kills: number;
@@ -160,7 +178,7 @@ function SummaryCard({
       </CardHeader>
       <CardContent className="space-y-1 text-xs text-muted-foreground">
         <p>攻擊 {formatEff(attack)} · 接發 {formatPct(reception)}</p>
-        <p>Side-out {formatPct(sideout)}</p>
+        <p>舉球 {formatPct(set)} · Side-out {formatPct(sideout)}</p>
         <p>
           扣死 {kills} · ACE {aces}
         </p>
@@ -223,7 +241,7 @@ function PlayerTable({
   extraLabel,
 }: {
   players: PlayerSkillStats[];
-  field: "attack" | "serve" | "reception" | "block";
+  field: "attack" | "serve" | "reception" | "block" | "set";
   extra: (p: PlayerSkillStats) => string;
   extraLabel: string;
 }) {
@@ -267,16 +285,6 @@ function PlayerTable({
       </table>
     </div>
   );
-}
-
-function effAttack(e: EvalCounts): number | null {
-  if (e.total === 0) return null;
-  return (e["#"] - e["="] - e["/"]) / e.total;
-}
-
-function effReception(e: EvalCounts): number | null {
-  if (e.total === 0) return null;
-  return (e["#"] * 1 + e["+"] * 0.8 + e["!"] * 0.5 + e["-"] * 0.25) / e.total;
 }
 
 function barColor(ev: keyof typeof EVAL_META): string {

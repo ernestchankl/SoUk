@@ -20,7 +20,7 @@ export default function HomePage() {
         <p className="text-[11px] tracking-[0.2em] text-primary">蘇屋排球隊</p>
         <h1 className="mt-1 text-3xl font-black tracking-tight">Stat App</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          手機版排球比賽記錄。用 Data Volley 簡化代碼記每一球，賽後立刻看攻擊效率、接發與 Side-out。
+          手機版排球比賽記錄。用簡化代碼記每一球，賽後立刻看攻擊、舉球、接發與 Side-out。
         </p>
       </header>
 

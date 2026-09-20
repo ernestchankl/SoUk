@@ -4,9 +4,10 @@ export function withBase(path: string) {
   return `${base}${path}`;
 }
 
-export function matchHref(id: string, view?: "stats" | "setup") {
+export function matchHref(id: string, view?: "stats" | "setup" | "report") {
   const query = `?id=${encodeURIComponent(id)}`;
   if (view === "stats") return `/match/stats/${query}`;
   if (view === "setup") return `/match/setup/${query}`;
+  if (view === "report") return `/match/report/${query}`;
   return `/match/${query}`;
 }

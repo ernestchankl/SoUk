@@ -16,14 +16,14 @@ import { cn } from "@/lib/utils";
 export function CodesHelp() {
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="ghost" size="sm" />}>
+      <DialogTrigger render={<Button variant="ghost" className="h-10 px-3 text-base font-bold" />}>
         代碼
       </DialogTrigger>
       <DialogContent className="max-h-[85dvh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Data Volley 簡化代碼</DialogTitle>
+          <DialogTitle>簡化代碼</DialogTitle>
           <DialogDescription>
-            記錄順序是「球員 → 技術 → 評價」。帶白框的評價會結束這一分。
+            用簡化代碼記每一球。順序是「球員 → 技術 → 評價」。帶白框的評價會結束這一分。
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 text-sm">

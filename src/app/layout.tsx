@@ -15,7 +15,7 @@ const mono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "蘇屋排球隊Stat App",
-  description: "蘇屋排球隊比賽記錄與分析，用 Data Volley 簡化代碼即時記分。",
+  description: "蘇屋排球隊比賽記錄與分析。用簡化代碼記每一球，賽後立刻看數據。",
   applicationName: "蘇屋排球隊Stat App",
   appleWebApp: {
     capable: true,

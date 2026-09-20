@@ -62,7 +62,7 @@ export function CodingPad({
         />
       </div>
 
-      <p className="mb-1.5 font-mono text-xs text-muted-foreground">
+      <p className="mb-2 font-mono text-base font-bold tracking-wide text-foreground">
         {draftText(team, player, skill)}
       </p>
 
@@ -76,7 +76,7 @@ export function CodingPad({
               disabled={disabled}
               onClick={() => setPlayerId(p.id)}
               className={cn(
-                "min-h-12 rounded-xl border px-1 py-1.5 text-left transition active:scale-[0.98] disabled:opacity-40",
+                "min-h-14 rounded-xl border px-1 py-1.5 text-left transition active:scale-[0.98] disabled:opacity-40",
                 selected
                   ? team === "home"
                     ? "border-home bg-home text-background"
@@ -84,10 +84,10 @@ export function CodingPad({
                   : "border-white/10 bg-white/5"
               )}
             >
-              <span className="block font-mono text-base font-bold leading-none">
+              <span className="block font-mono text-xl font-black leading-none">
                 {padNumber(p.number)}
               </span>
-              <span className="mt-0.5 block truncate text-[10px] opacity-80">
+              <span className="mt-1 block truncate text-xs font-semibold leading-tight">
                 {p.name || positionLabel(p.position)}
               </span>
             </button>
@@ -105,14 +105,14 @@ export function CodingPad({
               disabled={disabled}
               onClick={() => setSkill(s.code)}
               className={cn(
-                "min-h-11 rounded-xl border px-1 py-1.5 text-center transition active:scale-[0.98] disabled:opacity-40",
+                "min-h-14 rounded-xl border px-1 py-1.5 text-center transition active:scale-[0.98] disabled:opacity-40",
                 selected
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-white/10 bg-white/5"
               )}
             >
-              <span className="block text-xs font-medium">{s.label}</span>
-              <span className="font-mono text-[10px] opacity-70">{s.code}</span>
+              <span className="block text-sm font-bold leading-tight">{s.label}</span>
+              <span className="mt-0.5 block font-mono text-xs font-bold opacity-80">{s.code}</span>
             </button>
           );
         })}
@@ -130,15 +130,15 @@ export function CodingPad({
               disabled={!ready}
               onClick={() => commit(evaluation)}
               className={cn(
-                "min-h-14 rounded-xl border px-0.5 py-1 text-center transition active:scale-[0.98] disabled:opacity-35",
+                "min-h-16 rounded-xl border px-0.5 py-1 text-center transition active:scale-[0.98] disabled:opacity-35",
                 meta.className,
                 ends && "ring-2 ring-white/40"
               )}
             >
-              <span className="block font-mono text-lg font-black leading-none">
+              <span className="block font-mono text-2xl font-black leading-none">
                 {evaluation}
               </span>
-              <span className="mt-0.5 block text-[9px] leading-tight">
+              <span className="mt-1 block text-[11px] font-semibold leading-tight">
                 {skill ? evalHint(skill, evaluation) : meta.label}
               </span>
             </button>
@@ -151,7 +151,7 @@ export function CodingPad({
           type="button"
           variant="secondary"
           disabled={disabled}
-          className="h-11 bg-home/20 text-home hover:bg-home/30"
+          className="h-12 text-base font-bold bg-home/20 text-home hover:bg-home/30"
           onClick={() => onQuickPoint("home")}
         >
           {match.home.shortName} +1
@@ -160,7 +160,7 @@ export function CodingPad({
           type="button"
           variant="secondary"
           disabled={disabled}
-          className="h-11 bg-away/20 text-away hover:bg-away/30"
+          className="h-12 text-base font-bold bg-away/20 text-away hover:bg-away/30"
           onClick={() => onQuickPoint("away")}
         >
           {match.away.shortName} +1
@@ -186,7 +186,7 @@ function SideToggle({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-9 rounded-lg text-sm font-medium transition",
+        "h-11 rounded-lg text-base font-bold transition",
         active
           ? tone === "home"
             ? "bg-home text-background"

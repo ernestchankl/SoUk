@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button";
 import { useMatchId } from "@/hooks/use-match-id";
 import { useMatch } from "@/hooks/use-matches";
 import { matchHref } from "@/lib/routes";
-import { exportMatch } from "@/lib/storage";
 import { deriveState } from "@/lib/volleyball";
-import { Download } from "lucide-react";
+import { FileText } from "lucide-react";
 
 export default function StatsRoute() {
   return (
@@ -35,24 +34,20 @@ function StatsPage() {
 
   const state = deriveState(match);
 
-  const download = () => {
-    const blob = new Blob([exportMatch(match)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${match.home.shortName}-vs-${match.away.shortName}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <PhoneShell>
       <TopBar
         left={<BackLink href={matchHref(match.id)} />}
         title="比賽分析"
         right={
-          <Button variant="ghost" size="icon" className="size-8" onClick={download}>
-            <Download />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            nativeButton={false}
+            render={<Link href={matchHref(match.id, "report")} />}
+          >
+            <FileText />
           </Button>
         }
       />
@@ -62,6 +57,14 @@ function StatsPage() {
           {state.matchWinner ? " · 完場" : " · 進行中"}
         </p>
         <StatsView match={match} />
+        <Button
+          className="mb-3 h-12 w-full font-bold"
+          nativeButton={false}
+          render={<Link href={matchHref(match.id, "report")} />}
+        >
+          <FileText data-icon="inline-start" />
+          開啟 A4 報告
+        </Button>
         <Button
           variant="outline"
           className="mb-6 w-full"

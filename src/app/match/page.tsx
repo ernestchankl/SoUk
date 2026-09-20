@@ -108,20 +108,25 @@ function ScoutPage() {
           <div className="flex gap-1">
             <Button
               variant="ghost"
-              size="sm"
+              className="h-10 px-3 text-base font-bold"
               nativeButton={false}
               render={<Link href={matchHref(match.id, "setup")} />}
             >
               名單
             </Button>
-            <Button variant="ghost" size="sm" onClick={undo} disabled={match.actions.length === 0}>
+            <Button
+              variant="ghost"
+              className="h-10 px-3 text-base font-bold"
+              onClick={undo}
+              disabled={match.actions.length === 0}
+            >
               <Undo2 data-icon="inline-start" />
               撤銷
             </Button>
           </div>
         </div>
         <div className="px-3 pb-2">
-          <p className="mb-1 text-[11px] tracking-widest text-muted-foreground uppercase">
+          <p className="mb-1 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
             {state.rally.length ? "本球動作" : "最近動作"}
           </p>
           <RallyLog

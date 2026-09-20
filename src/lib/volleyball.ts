@@ -202,7 +202,7 @@ const SKILL_FIELD: Record<Exclude<Skill, "Q">, keyof Omit<PlayerSkillStats, "pla
   F: "freeball",
 };
 
-function attackEfficiency(e: EvalCounts): number | null {
+export function attackEfficiency(e: EvalCounts): number | null {
   if (e.total === 0) return null;
   return (e["#"] - e["="] - e["/"]) / e.total;
 }
@@ -212,7 +212,7 @@ function serveEfficiency(e: EvalCounts): number | null {
   return (e["#"] - e["="]) / e.total;
 }
 
-function receptionEfficiency(e: EvalCounts): number | null {
+export function qualityEfficiency(e: EvalCounts): number | null {
   if (e.total === 0) return null;
   const weighted =
     e["#"] * 1 +
@@ -312,7 +312,8 @@ export function computeTeamStats(match: Match, side: TeamSide): TeamStats {
     serveAttempts,
     attackEfficiency: attackEfficiency(teamTotals.attack),
     serveEfficiency: serveEfficiency(teamTotals.serve),
-    receptionEfficiency: receptionEfficiency(teamTotals.reception),
+    receptionEfficiency: qualityEfficiency(teamTotals.reception),
+    setEfficiency: qualityEfficiency(teamTotals.set),
     sideoutPct: pct(sideouts, receiveAttempts),
     breakPct: pct(breaks, serveAttempts),
     players,

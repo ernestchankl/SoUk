@@ -128,6 +128,7 @@ export interface TeamStats {
   attackEfficiency: number | null;
   serveEfficiency: number | null;
   receptionEfficiency: number | null;
+  setEfficiency: number | null;
   sideoutPct: number | null;
   breakPct: number | null;
   players: PlayerSkillStats[];
