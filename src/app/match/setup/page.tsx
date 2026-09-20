@@ -1,18 +1,27 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
 import { BackLink } from "@/components/codes-help";
 import { PhoneShell, TopBar } from "@/components/phone-shell";
 import { RosterEditor } from "@/components/roster-editor";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMatchId } from "@/hooks/use-match-id";
 import { useMatch, useMatches } from "@/hooks/use-matches";
+import { matchHref, withBase } from "@/lib/routes";
 import { deriveState } from "@/lib/volleyball";
 
-export default function SetupPage() {
-  const params = useParams<{ id: string }>();
-  const router = useRouter();
-  const { match, update } = useMatch(params.id);
+export default function SetupRoute() {
+  return (
+    <Suspense fallback={<PhoneShell><p className="p-6 text-sm text-muted-foreground">載入中…</p></PhoneShell>}>
+      <SetupPage />
+    </Suspense>
+  );
+}
+
+function SetupPage() {
+  const id = useMatchId();
+  const { match, update } = useMatch(id);
   const { remove } = useMatches();
 
   if (!match) {
@@ -30,7 +39,7 @@ export default function SetupPage() {
 
   return (
     <PhoneShell>
-      <TopBar left={<BackLink href={`/match/${match.id}`} />} title="名單與設定" />
+      <TopBar left={<BackLink href={matchHref(match.id)} />} title="名單與設定" />
       <main className="flex-1 overflow-y-auto px-4 py-4 pb-10 space-y-5">
         <Tabs defaultValue="home">
           <TabsList className="grid w-full grid-cols-2">
@@ -77,7 +86,7 @@ export default function SetupPage() {
           onClick={() => {
             if (window.confirm("確定刪除這場比賽？此動作無法復原。")) {
               remove(match.id);
-              router.push("/");
+              window.location.assign(withBase("/"));
             }
           }}
         >

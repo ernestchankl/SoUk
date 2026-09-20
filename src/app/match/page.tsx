@@ -1,25 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { CodingPad } from "@/components/coding-pad";
 import { BackLink, CodesHelp } from "@/components/codes-help";
 import { PhoneShell, TopBar } from "@/components/phone-shell";
 import { RallyLog } from "@/components/rally-log";
 import { Scoreboard } from "@/components/scoreboard";
 import { Button } from "@/components/ui/button";
+import { useMatchId } from "@/hooks/use-match-id";
 import { useMatch } from "@/hooks/use-matches";
 import { uid } from "@/lib/id";
+import { matchHref, withBase } from "@/lib/routes";
 import type { Action, Evaluation, Player, Skill, TeamSide } from "@/lib/types";
 import { deriveState, isTerminal } from "@/lib/volleyball";
 import { BarChart3, Undo2 } from "lucide-react";
 
-export default function ScoutPage() {
-  const params = useParams<{ id: string }>();
-  const router = useRouter();
-  const { match, update } = useMatch(params.id);
+export default function ScoutRoute() {
+  return (
+    <Suspense fallback={<PhoneShell><p className="p-6 text-sm text-muted-foreground">載入比賽中…</p></PhoneShell>}>
+      <ScoutPage />
+    </Suspense>
+  );
+}
 
+function ScoutPage() {
+  const id = useMatchId();
+  const { match, update } = useMatch(id);
   const state = useMemo(() => (match ? deriveState(match) : null), [match]);
 
   if (!match || !state) {
@@ -88,7 +95,7 @@ export default function ScoutPage() {
             size="icon"
             className="size-8"
             nativeButton={false}
-            render={<Link href={`/match/${match.id}/stats`} />}
+            render={<Link href={matchHref(match.id, "stats")} />}
           >
             <BarChart3 />
           </Button>
@@ -103,7 +110,7 @@ export default function ScoutPage() {
               variant="ghost"
               size="sm"
               nativeButton={false}
-              render={<Link href={`/match/${match.id}/setup`} />}
+              render={<Link href={matchHref(match.id, "setup")} />}
             >
               名單
             </Button>
@@ -124,13 +131,15 @@ export default function ScoutPage() {
         </div>
         {locked ? (
           <div className="px-4 py-4">
-            <Button className="h-12 w-full" nativeButton={false} render={<Link href={`/match/${match.id}/stats`} />}>
+            <Button className="h-12 w-full" nativeButton={false} render={<Link href={matchHref(match.id, "stats")} />}>
               查看本場分析
             </Button>
             <Button
               variant="ghost"
               className="mt-2 w-full"
-              onClick={() => router.push("/")}
+              onClick={() => {
+                window.location.assign(withBase("/"));
+              }}
             >
               返回列表
             </Button>

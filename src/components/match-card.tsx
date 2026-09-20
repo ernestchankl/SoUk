@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { Match } from "@/lib/types";
+import { matchHref } from "@/lib/routes";
 import { deriveState } from "@/lib/volleyball";
 import { ChevronRight } from "lucide-react";
 
@@ -11,7 +12,7 @@ export function MatchCard({ match }: { match: Match }) {
 
   return (
     <Link
-      href={`/match/${match.id}`}
+      href={matchHref(match.id)}
       className="block rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/8 active:scale-[0.99]"
     >
       <div className="flex items-start justify-between gap-2">

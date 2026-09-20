@@ -27,12 +27,33 @@ npm run dev
 
 瀏覽器開啟 [http://127.0.0.1:43123](http://127.0.0.1:43123)。
 
-正式建置：
+正式建置（靜態檔在 `out/`）：
 
 ```bash
 npm run build
 npm start
 ```
+
+## 免費上線（不需要 Vercel Pro）
+
+這個 App 沒有後端，資料存在手機瀏覽器，適合靜態託管。
+
+**GitHub Pages（建議，完全免費）**
+
+1. 把程式推到 `https://github.com/ernestchankl/SoUk.git` 的 `main`
+2. GitHub → Settings → Pages → Build and deployment → Source 選 **GitHub Actions**
+3. 推送後 Actions 會自動發布
+
+網址會是：https://ernestchankl.github.io/SoUk/
+
+**其他免費方案**
+
+| 平台 | 費用 | 備註 |
+| --- | --- | --- |
+| GitHub Pages | 免費 | 已內建 Actions 工作流程 |
+| Cloudflare Pages | 免費 | 連 GitHub 後選 Framework preset `Next.js (Static HTML Export)` |
+| Netlify | 免費 | 連 GitHub，Build `npm run build`，Publish `out` |
+| Vercel Hobby | 免費 | **不必 Pro**；Hobby 就能託管這個 App |
 
 ## 記錄方式
 

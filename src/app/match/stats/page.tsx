@@ -1,19 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { Suspense } from "react";
 import { BackLink } from "@/components/codes-help";
 import { PhoneShell, TopBar } from "@/components/phone-shell";
 import { StatsView } from "@/components/stats-view";
 import { Button } from "@/components/ui/button";
+import { useMatchId } from "@/hooks/use-match-id";
 import { useMatch } from "@/hooks/use-matches";
+import { matchHref } from "@/lib/routes";
 import { exportMatch } from "@/lib/storage";
 import { deriveState } from "@/lib/volleyball";
 import { Download } from "lucide-react";
 
-export default function StatsPage() {
-  const params = useParams<{ id: string }>();
-  const { match } = useMatch(params.id);
+export default function StatsRoute() {
+  return (
+    <Suspense fallback={<PhoneShell><p className="p-6 text-sm text-muted-foreground">載入數據中…</p></PhoneShell>}>
+      <StatsPage />
+    </Suspense>
+  );
+}
+
+function StatsPage() {
+  const id = useMatchId();
+  const { match } = useMatch(id);
 
   if (!match) {
     return (
@@ -38,7 +48,7 @@ export default function StatsPage() {
   return (
     <PhoneShell>
       <TopBar
-        left={<BackLink href={`/match/${match.id}`} />}
+        left={<BackLink href={matchHref(match.id)} />}
         title="比賽分析"
         right={
           <Button variant="ghost" size="icon" className="size-8" onClick={download}>
@@ -56,7 +66,7 @@ export default function StatsPage() {
           variant="outline"
           className="mb-6 w-full"
           nativeButton={false}
-          render={<Link href={`/match/${match.id}`} />}
+          render={<Link href={matchHref(match.id)} />}
         >
           回到記錄台
         </Button>

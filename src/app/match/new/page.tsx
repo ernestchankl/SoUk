@@ -14,6 +14,7 @@ import {
   createBlankTeam,
   createNamedTeam,
 } from "@/lib/sample";
+import { matchHref, withBase } from "@/lib/routes";
 import { saveMatch } from "@/lib/storage";
 import type { BestOf, Match, Team, TeamSide } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -37,10 +38,7 @@ export default function NewMatchPage() {
       actions: [],
     };
     saveMatch(match);
-    // Full navigation is more reliable than the App Router when the
-    // development websocket is unavailable.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- see comment above
-    window.location.assign(`/match/${match.id}`);
+    window.location.assign(withBase(matchHref(match.id)));
   };
 
   return (
