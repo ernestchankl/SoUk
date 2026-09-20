@@ -18,7 +18,7 @@
 
 ## 本機執行
 
-需要 Node.js 20 以上。
+需要 Node.js 20 或以上（GitHub Actions 使用 Node 24）。
 
 ```bash
 npm install
